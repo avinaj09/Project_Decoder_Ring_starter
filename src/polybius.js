@@ -5,14 +5,42 @@
 
 const polybiusModule = (function () {
   // you can add any code you want within this function scope
-
-  function polybius(input, encode = true) {
-    // your solution code here
-  }
-
-  return {
-    polybius,
+  let cipher = {
+    "a" : 11, "b" : 21, "c" : 31, "d" : 41, "e" : 51,
+    "f" : 12, "g" : 22, "h" : 32, "(i/j)" : 42, "k" : 52,
+    "l" : 13, "m" : 23, "n" : 33, "o" : 43, "p" : 53,
+    "q" : 14, "r" : 24, "s" : 34, "t" : 44, "u" : 54,
+    "v" : 15, "w" : 25, "x" : 35, "y" : 45, "z" : 55,
+    " " : 00,
   };
-})();
-
-module.exports = { polybius: polybiusModule.polybius };
+ function polybius(input, encode = true) {
+   if(typeof(input) !== "string")return false;
+      let code =""
+      if(encode){
+        const inputs = input.toLowerCase();
+        for(let i=0; i<input.length; i++){
+          if (inputs[i].includes("i") || inputs[i].includes("j")){
+              code+=cipher["(i/j)"];
+          }else if (inputs[i] === " "){
+              code+=inputs[i];
+          }else{
+              code+=cipher[inputs[i]];
+          }}
+        }else{
+          const newInput = input.replace(" ","00")
+          if(newInput.length%2!==0)return false;
+          if(!input) return false;
+          let arr = newInput.match(/.{1,2}/g);
+          arr.forEach(num => { 
+          const char = Object.keys(cipher).find(key=> num == cipher[key]);
+          code += char;
+          });
+        }
+       return code
+    }
+    return {
+      polybius,
+    };
+  })();
+  
+  module.exports = { polybius: polybiusModule.polybius };
