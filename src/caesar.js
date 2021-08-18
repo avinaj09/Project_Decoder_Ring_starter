@@ -4,15 +4,47 @@
 // of the anonymous function on line 6
 
 const caesarModule = (function () {
-  // you can add any code you want within this function scope
-
-  function caesar(input, shift, encode = true) {
-    // your solution code here
-  }
-
-  return {
-    caesar,
-  };
-})();
-
-module.exports = { caesar: caesarModule.caesar };
+    // a = 97, z = 122
+    function caesar(input, shift, encode = true) {
+      const finish = []
+      if(shift === 0 || shift > 25 || shift < -25 || !shift || !input)  return false;
+      for(let i = 0; i < input.length; i++) {
+        let code = input[i].toLowerCase().charCodeAt()
+       console.log(code);
+        if(encode===true) {
+        if(code > 96 && code < 123) {
+           code += shift;
+          if(code > 96 && code < 123) {
+            finish.push(String.fromCharCode(code));
+          } else if(code <= 96) {
+            code = code + 26;
+            finish.push(String.fromCharCode(code))
+          } else if(code >= 123) {
+            code = code - 26;
+            finish.push(String.fromCharCode(code))
+          }
+        } else { 
+        finish.push(String.fromCharCode(code))
+        } } else{if(code > 96 && code < 123) {
+           code -= shift;
+          if(code > 96 && code < 123) {
+            finish.push(String.fromCharCode(code));
+          } else if(code <= 96) {
+            code = code + 26;
+            finish.push(String.fromCharCode(code))
+          } else if(code >= 123) {
+            code = code - 26;
+            finish.push(String.fromCharCode(code))
+          }
+        } else { 
+        finish.push(String.fromCharCode(code))}
+      }};
+      return finish.join("");
+    }
+    return {
+      caesar,
+    };
+  })();
+  
+  module.exports = { caesar: caesarModule.caesar };
+  
